@@ -1,0 +1,29 @@
+{
+  "name": "flowdock-ex",
+  "version": "0.0.1",
+  "description": "Flowdock with higher level functionality",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arcticzeroo/flowdock-ex.git"
+  },
+  "keywords": [
+    "flowdock"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arcticzeroo/flowdock-ex/issues"
+  },
+  "homepage": "https://github.com/arcticzeroo/flowdock-ex#readme",
+  "dependencies": {
+    "enmap": "^2.5.2",
+    "flowdock": "^0.9.1"
+  }
+}
