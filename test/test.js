@@ -6,9 +6,19 @@ const EnMap = require('enmap');
 const FlowdockClient = require('../lib/client/FlowdockClient');
 const token = process.env.TEST_TOKEN;
 
+describe('Environment', function () {
+   it('has a test token set', function () {
+      assert.ok(token != null, 'No token is set in TEST_TOKEN env variable');
+   });
+});
+
 describe('FlowdockClient', function () {
-   const baseClient = new FlowdockClient({
-      session: token
+   let baseClient;
+
+   before(function () {
+      baseClient = new FlowdockClient({
+         session: token
+      });
    });
 
    it('Sets required properties', function () {
@@ -30,10 +40,16 @@ describe('FlowdockClient', function () {
    });
 
    it('Populates organizations, flows, and users on init', async function () {
+      this.timeout(10000);
+
       try {
          await baseClient.init();
       } catch (e) {
          throw e;
       }
+
+      assert.notEqual(baseClient.organizations.size, 0, 'no organizations were populated');
+      assert.notEqual(baseClient.flows.size, 0, 'no flows were populated');
+      assert.notEqual(baseClient.users.size, 0, 'no users were populated');
    });
 });
