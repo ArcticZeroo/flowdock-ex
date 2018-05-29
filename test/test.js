@@ -52,4 +52,8 @@ describe('FlowdockClient', function () {
       assert.notEqual(baseClient.flows.size, 0, 'no flows were populated');
       assert.notEqual(baseClient.users.size, 0, 'no users were populated');
    });
+
+   after(function () {
+      baseClient.destroy();
+   });
 });
