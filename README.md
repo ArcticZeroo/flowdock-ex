@@ -23,12 +23,12 @@ That's pretty much it.
 ```javascript
 const { FlowdockClient } = require('flowdock-ex');
 
-const client = new FlowdockClient(MY_TOKEN);
+const client = new FlowdockClient({ session: MY_TOKEN });
 
 client.init()
     .then(() => {
        client
-         .stream(Array.from(client.flows.values()))
+         .stream(...Array.from(client.flows.values()))
          .on('event', ...);
     })
     .catch(console.error)
