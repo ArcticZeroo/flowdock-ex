@@ -56,24 +56,6 @@ describe('FlowdockClient', function () {
       assert.notEqual(baseClient.users.size, 0, 'no users were populated');
    });
 
-   describe('MessageBuilder', function () {
-      it('Properly builds mundane chat messages', function () {
-         const flow = baseClient.flows.find('name', 'spencer-test');
-
-         assert.ok(flow != null, 'spencer-test flow could not be found');
-
-         const message = new MessageBuilder('Hello World!')
-            .setFlow(flow)
-            .build(baseClient);
-
-         assert.equal(message.content, 'Hello World!', 'Content was not properly set');
-         assert.equal(message.flow, flow, 'Flow was not properly set');
-         assert.equal(message.event, MessageType.CHAT_MESSAGE, 'Message type was not automatically set');
-
-         message.send();
-      });
-   });
-
    after(function () {
       baseClient.destroy();
    });
