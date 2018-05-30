@@ -1,6 +1,6 @@
 {
   "name": "flowdock-ex",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Flowdock with higher level functionality",
   "main": "index.js",
   "directories": {
