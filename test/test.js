@@ -54,6 +54,7 @@ describe('FlowdockClient', function () {
       assert.notEqual(baseClient.organizations.size, 0, 'no organizations were populated');
       assert.notEqual(baseClient.flows.size, 0, 'no flows were populated');
       assert.notEqual(baseClient.users.size, 0, 'no users were populated');
+      assert.ok(baseClient.self != null, 'self is null');
    });
 
    after(function () {
