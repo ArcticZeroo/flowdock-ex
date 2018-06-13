@@ -2,7 +2,7 @@ const util = require('util');
 const EventEmitter = require('events');
 
 const { Session } = require('flowdock');
-const EnMap = require('enmap');
+const Collection = require('djs-collection');
 
 const flowdockInternalConfig = require('../../config/flowdock-internal');
 const Flow = require('../structures/Flow');
@@ -79,22 +79,22 @@ class FlowdockClient extends EventEmitter  {
       // ID -> Organization
       /**
        * A map of organization ID -> organization
-       * @type {module:enmap.Enmap}
+       * @type {Collection}
        */
-      this.organizations = new EnMap();
+      this.organizations = new Collection();
       // ID -> Flow
       /**
        * A map of flow ID -> flow
-       * @type {module:enmap.Enmap}
+       * @type {Collection}
        */
-      this.flows = new EnMap();
+      this.flows = new Collection();
       this._joinedFlows = new Set();
       // ID -> User
       /**
        * All users in this client.
-       * @type {module:enmap.Enmap<number, User>}
+       * @type {Collection}
        */
-      this.users = new EnMap();
+      this.users = new Collection();
    }
 
    _promisifySession() {
