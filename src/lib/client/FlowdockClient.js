@@ -1,8 +1,8 @@
-const util = require('util');
 const EventEmitter = require('events');
 
 const { Session } = require('flowdock');
 const Collection = require('djs-collection');
+const { promisify } = require('bluebird');
 
 const flowdockInternalConfig = require('../../config/flowdock-internal');
 const Flow = require('../structures/Flow');
@@ -100,7 +100,7 @@ class FlowdockClient extends EventEmitter  {
    _promisifySession() {
       for (const prop of flowdockInternalConfig.toPromisify) {
          // completely replace the existing item with the promisified version
-         this.session[prop] = util.promisify(this.session[prop]);
+         this.session[prop] = promisify(this.session[prop]);
       }
    }
 

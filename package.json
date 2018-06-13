@@ -29,7 +29,8 @@
   "dependencies": {
     "babel-runtime": "^6.26.0",
     "djs-collection": "0.0.6",
-    "flowdock": "^0.9.1"
+    "flowdock": "^0.9.1",
+    "bluebird": "latest"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

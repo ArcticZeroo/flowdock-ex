@@ -1,10 +1,10 @@
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-const util = require('util');
 const EventEmitter = require('events');
 
 const { Session } = require('flowdock');
 const Collection = require('djs-collection');
+const { promisify } = require('bluebird');
 
 const flowdockInternalConfig = require('../../config/flowdock-internal');
 const Flow = require('../structures/Flow');
@@ -102,7 +102,7 @@ class FlowdockClient extends EventEmitter {
    _promisifySession() {
       for (const prop of flowdockInternalConfig.toPromisify) {
          // completely replace the existing item with the promisified version
-         this.session[prop] = util.promisify(this.session[prop]);
+         this.session[prop] = promisify(this.session[prop]);
       }
    }
 
