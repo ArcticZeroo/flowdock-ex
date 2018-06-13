@@ -1,7 +1,4 @@
-const EnMap = require('enmap');
-
 const Structure = require('./Structure');
-const ObjectUtil = require('../util/ObjectUtil');
 const MessageType = require('../enum/MessageType');
 const Flow = require('./Flow');
 

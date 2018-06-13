@@ -1,4 +1,4 @@
-const EnMap = require('enmap');
+const Collection = require('djs-collection');
 
 const Structure = require('./Structure');
 const ObjectUtil = require('../util/ObjectUtil');
@@ -7,13 +7,13 @@ class User extends Structure {
    constructor(client, data) {
       super(client, data);
 
-      this.flows = new EnMap();
+      this.flows = new Collection();
 
       /**
        * This user's organizations
-       * @type {module:enmap.Enmap}
+       * @type {Collection}
        */
-      this.organizations = new EnMap();
+      this.organizations = new Collection();
    }
 
    setup(data) {

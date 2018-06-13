@@ -1,4 +1,4 @@
-const EnMap = require('enmap');
+const Collection = require('djs-collection');
 
 const Structure = require('./Structure');
 const ObjectUtil = require('../util/ObjectUtil');
@@ -8,8 +8,8 @@ class Organization extends Structure {
    constructor(client, data) {
       super(client);
 
-      this.users = new EnMap();
-      this.flows = new EnMap();
+      this.users = new Collection();
+      this.flows = new Collection();
 
       if (data) {
          this.setup(data);
