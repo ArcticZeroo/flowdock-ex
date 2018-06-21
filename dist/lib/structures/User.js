@@ -1,4 +1,4 @@
-const Collection = require('djs-collection');
+const Collection = require('@arcticzeroo/djs-collection');
 
 const Structure = require('./Structure');
 const ObjectUtil = require('../util/ObjectUtil');

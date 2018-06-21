@@ -27,10 +27,11 @@
   },
   "homepage": "https://github.com/arcticzeroo/flowdock-ex#readme",
   "dependencies": {
+    "@arcticzeroo/djs-collection": "^1.0.0",
     "babel-runtime": "^6.26.0",
+    "bluebird": "latest",
     "djs-collection": "0.0.6",
-    "flowdock": "^0.9.1",
-    "bluebird": "latest"
+    "flowdock": "^0.9.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

@@ -3,7 +3,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 const EventEmitter = require('events');
 
 const { Session } = require('flowdock');
-const Collection = require('djs-collection');
+const Collection = require('@arcticzeroo/djs-collection');
 const { promisify } = require('bluebird');
 
 const flowdockInternalConfig = require('../../config/flowdock-internal');
@@ -102,7 +102,7 @@ class FlowdockClient extends EventEmitter {
    _promisifySession() {
       for (const prop of flowdockInternalConfig.toPromisify) {
          // completely replace the existing item with the promisified version
-         this.session[prop] = promisify(this.session[prop]);
+         this.session[prop] = promisify(this.session[prop], { context: this.session });
       }
    }
 

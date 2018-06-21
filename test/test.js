@@ -1,11 +1,10 @@
 const assert = require('assert');
 
 const { Session } = require('flowdock');
-const EnMap = require('enmap');
 
-const FlowdockClient = require('../lib/client/FlowdockClient');
-const MessageBuilder = require('../lib/structures/MessageBuilder');
-const MessageType = require("../lib/enum/MessageType");
+const FlowdockClient = require('../src/lib/client/FlowdockClient');
+const MessageBuilder = require('../src/lib/structures/MessageBuilder');
+const MessageType = require("../src/lib/enum/MessageType");
 
 const token = process.env.TEST_TOKEN;
 
