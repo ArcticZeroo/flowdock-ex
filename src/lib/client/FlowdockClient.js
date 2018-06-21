@@ -275,6 +275,10 @@ class FlowdockClient extends EventEmitter  {
             .then((responseFlows) => {
                if (responseFlows.length !== this._joinedFlows.size) {
                   const newlyJoinedFlows = [];
+                  const newlyLeftFlows = [];
+
+                  // Flows missing from the response flows
+                  const missingFlows = Array.from(this.flows.keys()).map(flow => flow.id);
 
                   for (const responseFlow of responseFlows) {
                      if (!this.flows.has(responseFlow.id)) {
@@ -294,19 +298,48 @@ class FlowdockClient extends EventEmitter  {
                            // new flow, not in joined
                            newlyJoinedFlows.push(flow);
                         }
+
+                        // If we've recently left the flow (since joined is no longer true)
+                        if (flow.joined && !responseFlow.joined) {
+                           newlyLeftFlows.push(flow);
+                        }
+
+                        // Remove this one from missing...
+                        missingFlows.splice(missingFlows.indexOf(responseFlow.id), 1);
+
+                        // Update the existing flow with data we have
+                        flow.setup(responseFlow);
                      }
                   }
 
-                  if (!newlyJoinedFlows || !newlyJoinedFlows.length) {
-                     return;
+                  if (newlyJoinedFlows && newlyJoinedFlows.length) {
+                     for (const flow of newlyJoinedFlows) {
+                        this._joinedFlows.add(flow);
+                        this.emit('joinedFlow', flow);
+                     }
+
+                     this.emit('joinedFlows', newlyJoinedFlows);
                   }
 
-                  for (const flow of newlyJoinedFlows) {
-                     this._joinedFlows.add(flow);
-                     this.emit('joinedFlow', flow);
+                  if (missingFlows.length) {
+                     for (const missingFlowId of missingFlows) {
+                        newlyLeftFlows.push(this.flows.get(missingFlowId));
+                     }
                   }
 
-                  this.emit('joinedFlows', newlyJoinedFlows);
+                  if (newlyLeftFlows.length) {
+                     for (const flow of newlyLeftFlows) {
+                        // Don't retain left channels when
+                        // they are private
+                        if (!flow.open) {
+                           this.flows.delete(flow.id);
+                        }
+
+                        this.emit('leftFlow', flow);
+                     }
+
+                     this.emit('leftFlows', newlyLeftFlows);
+                  }
                }
 
                this.emit('flowsRefreshed');
