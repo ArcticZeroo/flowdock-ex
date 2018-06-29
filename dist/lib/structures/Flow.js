@@ -16,9 +16,11 @@ class Flow extends Structure {
    }
 
    setup(data) {
-      // Don't really care if this ends up being null, but it shouldn't be
-      this.organization = this.client.organizations.get(data.organization.id);
-      delete data.organization;
+      if (data.organization) {
+         // Don't really care if this ends up being null, but it shouldn't be
+         this.organization = this.client.organizations.get(data.organization.id);
+         delete data.organization;
+      }
 
       if (data.users) {
          for (const userData of data.users) {

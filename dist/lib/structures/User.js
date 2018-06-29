@@ -27,8 +27,13 @@ class User extends Structure {
        * @property {boolean} User.admin - Whether this user is an admin of the organization.
        * @property {string} User.website - This user's website
        * @property {string} User.avatar - This user's avatar
+       * @property {string} User.nick - This user's nickname
        */
       Object.assign(this, ObjectUtil.convertProperties(data));
+   }
+
+   get displayName() {
+      return this.nick || this.name;
    }
 
    toString() {
