@@ -420,6 +420,20 @@ class FlowdockClient extends EventEmitter  {
       this.users.clear();
       this.flows.clear();
    }
+
+   toString() {
+      return `FlowdockClient[flows=(${this.flows.size}),users=(${this.users.size})]`
+   }
+
+   toJSON() {
+      return {
+         users: this.users.size,
+         flows: this.flows.size,
+         organizations: this.organizations.size,
+         self: this.self.id,
+         options: this.options
+      }
+   }
    //TODO: event for on flows retrieved, and users retrieved, etc
 }
 
