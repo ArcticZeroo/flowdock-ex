@@ -1,6 +1,6 @@
 {
   "name": "flowdock-ex",
-  "version": "1.1.9",
+  "version": "1.1.10",
   "description": "Flowdock client for NodeJS with higher level functionality",
   "main": "index.js",
   "directories": {
