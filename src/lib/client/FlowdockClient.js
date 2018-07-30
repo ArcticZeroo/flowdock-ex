@@ -278,7 +278,7 @@ class FlowdockClient extends EventEmitter  {
                   const newlyLeftFlows = [];
 
                   // Flows missing from the response flows
-                  const missingFlows = Array.from(this.flows.keys()).map(flow => flow.id);
+                  const missingFlows = Array.from(this.flows.keys());
 
                   for (const responseFlow of responseFlows) {
                      if (!this.flows.has(responseFlow.id)) {
@@ -322,18 +322,16 @@ class FlowdockClient extends EventEmitter  {
                   }
 
                   if (missingFlows.length) {
-                     for (const missingFlowId of missingFlows) {
-                        newlyLeftFlows.push(this.flows.get(missingFlowId));
-                     }
-                  }
+                     for (const id of missingFlows) {
+                        const flow = this.flows.get(id);
 
-                  if (newlyLeftFlows.length) {
-                     for (const flow of newlyLeftFlows) {
                         // Don't retain left channels when
                         // they are private
                         if (!flow.open) {
                            this.flows.delete(flow.id);
                         }
+
+                        newlyLeftFlows.push(flow);
 
                         this.emit('leftFlow', flow);
                      }
@@ -374,6 +372,10 @@ class FlowdockClient extends EventEmitter  {
       this._messageStream.on('event', (type, message, data) => {
          this.emit(type, message, data);
          this.emit('event', type, message, data);
+      });
+
+      this._messageStream.on('error', () => {
+         this._messageStream.create();
       });
    }
 
