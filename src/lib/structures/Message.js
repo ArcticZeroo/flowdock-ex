@@ -86,10 +86,14 @@ class Message extends Structure {
       return (this.flow) ? this.flow.organization : null;
    }
 
+   get apiUrl() {
+      return `/flows/${this.organization.parameterizedName}/${this.flow.parameterizedName}/messages/${this.id}`;
+   }
+
    delete() {
       return this.client.request({
          type: 'delete',
-         path: `/flows/${this.organization.parameterizedName}/${this.flow.id}/messages/${this.id}`
+         path: this.apiUrl
       });
    }
 
@@ -106,6 +110,14 @@ class Message extends Structure {
       reply.flow = this.flow;
 
       return reply.send();
+   }
+
+   edit(content, tags) {
+      return this.client.request({
+         type: 'put',
+         path: this.apiUrl,
+         data: { content, tags }
+      });
    }
 }
 
