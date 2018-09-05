@@ -32,7 +32,8 @@ class FlowdockClient extends EventEmitter  {
          updateJoinedFlows: true,
          updateUsers: true,
          retrieveAllFlows: true,
-         autoListenForMessages: true
+         autoListenForMessages: true,
+         restartMessageStreamInterval: 60 * 60 * 1000
       }, options);
 
       const { session } = options;
@@ -377,6 +378,18 @@ class FlowdockClient extends EventEmitter  {
       this._messageStream.on('error', () => {
          this._messageStream.create();
       });
+
+      if (this.options.restartMessageStreamInterval) {
+         this._restartMessageStreamInterval = setInterval(() => this.resetMessageStream(), this.options.restartMessageStreamInterval);
+      }
+   }
+
+   resetMessageStream() {
+      if (this._messageStream) {
+         this._messageStream.create();
+      } else {
+         this._setupMessageStream();
+      }
    }
 
    async init() {
