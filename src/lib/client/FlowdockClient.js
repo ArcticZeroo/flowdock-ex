@@ -380,6 +380,10 @@ class FlowdockClient extends EventEmitter  {
       });
 
       if (this.options.restartMessageStreamInterval) {
+         if (this._restartMessageStreamInterval) {
+            clearInterval(this._restartMessageStreamInterval);
+         }
+
          this._restartMessageStreamInterval = setInterval(() => this.resetMessageStream(), this.options.restartMessageStreamInterval);
       }
    }
