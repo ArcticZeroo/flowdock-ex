@@ -33,7 +33,9 @@ class FlowdockClient extends EventEmitter  {
          updateUsers: true,
          retrieveAllFlows: true,
          autoListenForMessages: true,
-         restartMessageStreamInterval: 60 * 60 * 1000
+         restartMessageStreamInterval: false,
+         restartMessageStreamNoEventsInterval: 5 * 60 * 1000,
+         restartMessageStreamNoEventsCheckInterval: 30 * 1000
       }, options);
 
       const { session } = options;
@@ -96,6 +98,13 @@ class FlowdockClient extends EventEmitter  {
        * @type {Collection}
        */
       this.users = new Collection();
+
+      /**
+       * The last event received by this client
+       * @type {number}
+       * @private
+       */
+      this._lastEvent = 0;
    }
 
    _promisifySession() {
@@ -373,6 +382,8 @@ class FlowdockClient extends EventEmitter  {
       this._messageStream.on('event', (type, message, data) => {
          this.emit(type, message, data);
          this.emit('event', type, message, data);
+
+         this._lastEvent = Date.now();
       });
 
       this._messageStream.on('error', () => {
@@ -385,6 +396,18 @@ class FlowdockClient extends EventEmitter  {
          }
 
          this._restartMessageStreamInterval = setInterval(() => this.resetMessageStream(), this.options.restartMessageStreamInterval);
+      }
+
+      if (this.options.restartMessageStreamNoEventsInterval && this.options.restartMessageStreamNoEventsCheckInterval) {
+         if (this._restartMessageStreamNoEventsInterval) {
+            clearInterval(this._restartMessageStreamNoEventsInterval);
+         }
+
+         this._restartMessageStreamNoEventsInterval = setInterval(() => {
+            if ((Date.now() - this._lastEvent) >= this.options.restartMessageStreamNoEventsInterval) {
+               this.resetMessageStream();
+            }
+         }, this.options.restartMessageStreamNoEventsCheckInterval);
       }
    }
 
